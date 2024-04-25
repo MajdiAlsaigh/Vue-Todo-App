@@ -1,3 +1,9 @@
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+</script>
+
 <template>
   <div>
     <ul>
@@ -10,14 +16,7 @@
   </div>
 </template>
 
-<script setup>
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-</script>
-
 <style lang="scss" scoped>
-
 ul {
   display: flex;
   justify-content: center;
@@ -28,7 +27,7 @@ ul {
   list-style: none;
   background: lightseagreen;
 
-  a.router-link-active{
+  a.router-link-active {
     font-weight: bold;
   }
 }
