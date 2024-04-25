@@ -6,14 +6,13 @@ const routes = [
     name: "HomeTodo",
     path: "/",
     component: HomeTodo,
-    meta: { title: "Home Todo" },
+    meta: { title: "Home" },
   },
   {
     name: "ShowTodos",
     path: "/show-todos",
     component: () => import("../components/ShowTodos.vue"),
-    meta: { title: "Show Todos" },
-
+    meta: { title: "Todos" },
   },
 ];
 
@@ -22,4 +21,10 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  next();
+});
+
 export default router;
+

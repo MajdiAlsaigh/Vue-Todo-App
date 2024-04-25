@@ -1,3 +1,25 @@
+<script setup>
+import { useTodos } from "../Composables/useTodos";
+import { useFlashAlert } from "../Composables/useFlashAlert";
+
+const { todosList, addToLocalSt } = useTodos();
+const { FlashAlert } = useFlashAlert();
+// Methods
+// Delete Todo
+const deleteTodo = (index) => {
+  todosList.value.splice(index, 1);
+  addToLocalSt();
+  // sweet alert
+  FlashAlert("Deleted!", "Todo has been deleted successfully");
+};
+
+// Mark as completed
+const markCompleted = (todo) => {
+  todo.isCompleted = !todo.isCompleted;
+  addToLocalSt();
+};
+</script>
+
 <template>
   <section>
     <div class="show-todos">
@@ -45,43 +67,6 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import { ref, onMounted } from "vue";
-
-// Data
-const todosList = ref([]);
-
-// Methods
-const updateTodos = () => {
-  if (localStorage.getItem("todos")) {
-    todosList.value = JSON.parse(localStorage.getItem("todos"));
-  }
-  console.log(todosList.value);
-};
-
-// Delete Todo
-const deleteTodo = (index) => {
-  todosList.value.splice(index, 1);
-  addToLocalSt();
-};
-
-// Mark as completed
-const markCompleted = (todo) => {
-  todo.isCompleted = !todo.isCompleted;
-  addToLocalSt();
-};
-
-// Set to local storage
-const addToLocalSt = () => {
-  localStorage.setItem("todos", JSON.stringify(todosList.value));
-};
-
-// Hooks
-onMounted(() => {
-  updateTodos();
-});
-</script>
 
 <style lang="scss" scoped>
 table {

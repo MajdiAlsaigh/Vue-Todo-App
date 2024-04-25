@@ -1,3 +1,42 @@
+<script setup>
+import { ref } from "vue";
+import { useTodos } from "../Composables/useTodos";
+import { useFlashAlert } from "../Composables/useFlashAlert";
+
+const { todosList, addToLocalSt } = useTodos();
+const { FlashAlert } = useFlashAlert();
+
+// Data
+const todoObject = ref({
+  id: "",
+  text: "",
+  from: "",
+  to: "",
+  createdAt: "",
+  isCompleted: false,
+});
+
+// methods
+// Add todo
+const addTodo = () => {
+  todoObject.value.id = todosList.value.length + 1;
+  todoObject.value.createdAt = new Date();
+  todosList.value.push(todoObject.value);
+  addToLocalSt();
+  // sweet alert
+  FlashAlert("Indeed!", "Todo has been added successfully");
+  todoObject.value = {
+    id: "",
+    text: "",
+    from: "",
+    to: "",
+    createdAt: "",
+    isCompleted: false,
+  };
+  console.log(todosList.value);
+};
+</script>
+
 <template>
   <section>
     <h1>Add New Todo</h1>
@@ -22,59 +61,6 @@
     </form>
   </section>
 </template>
-
-<script setup>
-import { ref, onMounted } from "vue";
-
-// Data
-const todoList = ref([]);
-
-const todoObject = ref({
-  id: "",
-  text: "",
-  from: "",
-  to: "",
-  createdAt: "",
-  isCompleted: false,
-});
-
-// methods
-
-// Add todo
-const addTodo = () => {
-  todoObject.value.id = todoList.value.length + 1;
-  todoObject.value.createdAt = new Date();
-  todoList.value.push(todoObject.value);
-  addToLocalSt();
-  alert("Todo was added successfully");
-  todoObject.value = {
-    id: "",
-    text: "",
-    from: "",
-    to: "",
-    createdAt: "",
-    isCompleted: false,
-  };
-  console.log(todoList.value);
-};
-
-// Set to local storage
-const addToLocalSt = () => {
-  localStorage.setItem("todos", JSON.stringify(todoList.value));
-};
-
-// Update todos list in local storage
-const updateTodos = () => {
-  if (localStorage.getItem("todos")) {
-    todoList.value = JSON.parse(localStorage.getItem("todos"));
-  }
-};
-
-// Hooks
-onMounted(() => {
-  updateTodos();
-});
-</script>
 
 <style lang="scss" scoped>
 form {
